@@ -19,7 +19,7 @@ import { inspect } from 'util'
  */
 export class S3Node extends AWSTreeNodeBase {
     public constructor(private readonly s3: S3Client) {
-        super('S3', vscode.TreeItemCollapsibleState.Collapsed)
+        super('S3', vscode.TreeItemCollapsibleState.Expanded)
         this.contextValue = 'awsS3Node'
     }
 
@@ -27,8 +27,11 @@ export class S3Node extends AWSTreeNodeBase {
         return await makeChildrenNodes({
             getChildNodes: async () => {
                 const response = await this.s3.listBuckets()
+                const filteredBuckets = response.buckets.filter((bucket) =>
+                    bucket.Name?.startsWith('ai-league-agent-codebuild-sources')
+                )
 
-                return response.buckets.map((bucket) => new S3BucketNode(bucket, this, this.s3))
+                return filteredBuckets.map((bucket) => new S3BucketNode(bucket, this, this.s3))
             },
             getNoChildrenPlaceholderNode: async () =>
                 new PlaceholderNode(this, localize('AWS.explorerNode.s3.noBuckets', '[No Buckets found]')),

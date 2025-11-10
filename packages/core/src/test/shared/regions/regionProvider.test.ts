@@ -13,7 +13,7 @@ import * as extUtils from '../../../shared/extensionUtilities'
 import sinon from 'sinon'
 import globals from '../../../shared/extensionGlobals'
 
-const regionCode = 'someRegion'
+const regionCode = 'us-east-1'
 const serviceId = 'someService'
 const endpoints = {
     partitions: [
@@ -24,7 +24,7 @@ const endpoints = {
             regions: [
                 {
                     id: regionCode,
-                    name: 'Some Region',
+                    name: 'US East (N. Virginia)',
                 },
             ],
             services: [
@@ -136,7 +136,7 @@ describe('RegionProvider', async function () {
 
         it('gets regions for a known partition', async function () {
             const regions = regionProvider.getRegions('aws')
-            assert.deepStrictEqual(regions, [{ id: 'someRegion', name: 'Some Region' }])
+            assert.deepStrictEqual(regions, [{ id: 'us-east-1', name: 'US East (N. Virginia)' }])
         })
 
         it('returns empty array for an unknown partition', async function () {
@@ -148,12 +148,14 @@ describe('RegionProvider', async function () {
     describe('updateExplorerRegions', function () {
         let regionProvider: RegionProvider
 
-        beforeEach(function () {
+        beforeEach(async function () {
+            // Clear any stored regions to ensure clean test state
+            await globals.globalState.update('region', [])
             regionProvider = new RegionProvider(endpoints)
         })
 
         it('remembers saved regions', async function () {
-            assert.deepStrictEqual(regionProvider.getExplorerRegions(), [])
+            assert.deepStrictEqual(regionProvider.getExplorerRegions(), ['us-east-1', 'us-west-2'])
             await regionProvider.updateExplorerRegions(['foo', 'bar'])
             assert.deepStrictEqual(regionProvider.getExplorerRegions(), ['foo', 'bar'])
         })

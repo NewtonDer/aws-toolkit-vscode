@@ -16,7 +16,7 @@ import { TestSettings } from '../../../utilities/testSettingsConfiguration'
 import sinon from 'sinon'
 
 describe('S3BucketNode', function () {
-    const name = 'bucket-name'
+    const name = 'ai-league-agent-codebuild-sources-test-bucket'
     const continuationToken = 'continuationToken'
     const bucket: S3Bucket = { Name: name, BucketRegion: 'region', Arn: 'arn' }
     const file: File = { name: 'name', key: 'key', arn: 'arn' }

@@ -43,7 +43,7 @@ export class LambdaFunctionNode extends AWSTreeNodeBase implements AWSResourceNo
         super(
             `${configuration.FunctionArn}`,
             isLambdaFunctionDownloadable(contextValue)
-                ? vscode.TreeItemCollapsibleState.Collapsed
+                ? vscode.TreeItemCollapsibleState.Expanded
                 : vscode.TreeItemCollapsibleState.None
         )
         this.update(configuration)

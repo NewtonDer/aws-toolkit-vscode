@@ -21,6 +21,10 @@ const endpoints = {
                     name: DEFAULT_TEST_REGION_NAME,
                 },
                 {
+                    id: 'us-east-1',
+                    name: 'US East (N. Virginia)',
+                },
+                {
                     id: 'us-west-2',
                     name: 'US West (N. California)',
                 },
@@ -31,6 +35,49 @@ const endpoints = {
                     endpoints: [
                         {
                             regionId: DEFAULT_TEST_REGION_CODE,
+                            data: {},
+                        },
+                        {
+                            regionId: 'us-east-1',
+                            data: {},
+                        },
+                    ],
+                },
+                {
+                    id: 'lambda',
+                    endpoints: [
+                        {
+                            regionId: 'us-east-1',
+                            data: {},
+                        },
+                        {
+                            regionId: 'us-west-2',
+                            data: {},
+                        },
+                    ],
+                },
+                {
+                    id: 's3',
+                    endpoints: [
+                        {
+                            regionId: 'us-east-1',
+                            data: {},
+                        },
+                        {
+                            regionId: 'us-west-2',
+                            data: {},
+                        },
+                    ],
+                },
+                {
+                    id: 'logs',
+                    endpoints: [
+                        {
+                            regionId: 'us-east-1',
+                            data: {},
+                        },
+                        {
+                            regionId: 'us-west-2',
                             data: {},
                         },
                     ],

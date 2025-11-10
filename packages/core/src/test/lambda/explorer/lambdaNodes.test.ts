@@ -35,7 +35,7 @@ describe('LambdaNode', function () {
     })
 
     it('has LambdaFunctionNode child nodes', async function () {
-        const childNodes = await createNode('f1', 'f2').getChildren()
+        const childNodes = await createNode('AgentCoreGatewayTool-f1', 'AgentCoreGatewayTool-f2').getChildren()
 
         assert.strictEqual(childNodes.length, 2, 'Unexpected child count')
 
@@ -45,7 +45,7 @@ describe('LambdaNode', function () {
     })
 
     it('has child nodes with Lambda Function contextValue', async function () {
-        const childNodes = await createNode('f1', 'f2').getChildren()
+        const childNodes = await createNode('AgentCoreGatewayTool-f1', 'AgentCoreGatewayTool-f2').getChildren()
 
         for (const node of childNodes) {
             assert.strictEqual(
@@ -57,10 +57,18 @@ describe('LambdaNode', function () {
     })
 
     it('sorts child nodes', async function () {
-        const childNodes = await createNode('b', 'c', 'a').getChildren()
+        const childNodes = await createNode(
+            'AgentCoreGatewayTool-b',
+            'AgentCoreGatewayTool-c',
+            'AgentCoreGatewayTool-a'
+        ).getChildren()
 
         const actualChildOrder = childNodes.map((node) => node.label)
-        assert.deepStrictEqual(actualChildOrder, ['a', 'b', 'c'], 'Unexpected child sort order')
+        assert.deepStrictEqual(
+            actualChildOrder,
+            ['AgentCoreGatewayTool-a', 'AgentCoreGatewayTool-b', 'AgentCoreGatewayTool-c'],
+            'Unexpected child sort order'
+        )
     })
 
     it('has an error node for a child if an error happens during loading', async function () {

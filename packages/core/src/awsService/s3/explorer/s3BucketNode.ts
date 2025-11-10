@@ -35,7 +35,7 @@ export class S3BucketNode extends AWSTreeNodeBase implements AWSResourceNode, Lo
         public readonly s3: S3Client,
         protected readonly settings: ClassToInterfaceType<Settings> = Settings.instance
     ) {
-        super(bucket.Name, vscode.TreeItemCollapsibleState.Collapsed)
+        super(bucket.Name, vscode.TreeItemCollapsibleState.Expanded)
         this.tooltip = bucket.Name
         this.iconPath = getIcon('aws-s3-bucket')
         this.contextValue = 'awsS3BucketNode'
