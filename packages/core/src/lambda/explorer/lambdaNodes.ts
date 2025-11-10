@@ -35,10 +35,9 @@ export class LambdaNode extends AWSTreeNodeBase {
         public override readonly regionCode: string,
         private readonly client = new DefaultLambdaClient(regionCode)
     ) {
-        super('Lambda', vscode.TreeItemCollapsibleState.Collapsed)
+        super('Lambda', vscode.TreeItemCollapsibleState.Expanded)
         this.functionNodes = new Map<string, LambdaFunctionNode>()
         this.contextValue = 'awsLambdaNode'
-        this.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
     }
 
     public override async getChildren(): Promise<AWSTreeNodeBase[]> {
@@ -55,8 +54,12 @@ export class LambdaNode extends AWSTreeNodeBase {
     }
 
     public async updateChildren(): Promise<void> {
+        const allFunctions = await toArrayAsync(listLambdaFunctions(this.client))
+        const filteredFunctions = allFunctions.filter((config) =>
+            config.FunctionName?.startsWith('AgentCoreGatewayTool')
+        )
         const functions: Map<string, FunctionConfiguration> = toMap(
-            await toArrayAsync(listLambdaFunctions(this.client)),
+            filteredFunctions,
             (configuration) => configuration.FunctionName
         )
 

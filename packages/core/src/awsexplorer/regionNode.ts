@@ -72,7 +72,7 @@ const serviceCandidates: ServiceNode[] = [
     {
         serviceId: 'logs',
         createFn: (regionCode: string) => new CloudWatchLogsNode(regionCode),
-        when: () => false,
+        when: () => true,
     },
     {
         serviceId: 'ec2',

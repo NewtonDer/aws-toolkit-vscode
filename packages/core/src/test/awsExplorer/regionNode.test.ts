@@ -6,11 +6,7 @@
 import assert from 'assert'
 import { RegionNode } from '../../awsexplorer/regionNode'
 import { SchemasNode } from '../../eventSchemas/explorer/schemasNode'
-import {
-    createTestRegionProvider,
-    DEFAULT_TEST_REGION_CODE,
-    DEFAULT_TEST_REGION_NAME,
-} from '../shared/regions/testUtil'
+import { createTestRegionProvider } from '../shared/regions/testUtil'
 
 describe('RegionNode', function () {
     let testNode: RegionNode
@@ -20,8 +16,8 @@ describe('RegionNode', function () {
         testNode = new RegionNode({ id: regionCode, name: regionName }, regionProvider)
     })
 
-    const regionCode = DEFAULT_TEST_REGION_CODE
-    const regionName = DEFAULT_TEST_REGION_NAME
+    const regionCode = 'us-east-1' // Use allowed region instead of DEFAULT_TEST_REGION_CODE
+    const regionName = 'US East (N. Virginia)' // Use corresponding region name
 
     it('initializes name and tooltip', async function () {
         assert.strictEqual(testNode.label, regionName)

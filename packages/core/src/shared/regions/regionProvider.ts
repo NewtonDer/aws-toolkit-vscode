@@ -51,7 +51,7 @@ export class RegionProvider {
     }
 
     public isServiceInRegion(serviceId: string, regionId: string): boolean {
-        return !!this.regionData.get(regionId)?.serviceIds.find((x) => x === serviceId) ?? false
+        return !!this.regionData.get(regionId)?.serviceIds.find((x) => x === serviceId)
     }
 
     public getPartitionId(regionId: string): string | undefined {
@@ -75,13 +75,23 @@ export class RegionProvider {
     }
 
     public getRegions(partitionId = this.defaultPartitionId): Region[] {
+        const allowedRegions = ['us-east-1', 'us-west-2']
         return [...this.regionData.values()]
             .filter((region) => region.partitionId === partitionId)
             .map((region) => region.region)
+            .filter((region) => allowedRegions.includes(region.id))
     }
 
     public getExplorerRegions(): string[] {
-        return globals.globalState.tryGet<string[]>('region', Object, [])
+        const storedRegions = globals.globalState.tryGet<string[]>('region', Object, [])
+        // If no regions are stored, default to us-east-1 and us-west-2 and persist them
+        if (storedRegions.length === 0) {
+            const defaultRegions = ['us-east-1', 'us-west-2']
+            // Persist the default regions so they appear as enabled in the region selector
+            void this.updateExplorerRegions(defaultRegions)
+            return defaultRegions
+        }
+        return storedRegions
     }
 
     public async updateExplorerRegions(regions: string[]): Promise<void> {

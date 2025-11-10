@@ -11,8 +11,16 @@ import { AWSTreeNodeBase } from '../../../../shared/treeview/nodes/awsTreeNodeBa
 import sinon from 'sinon'
 
 describe('S3Node', function () {
-    const firstBucket: S3Bucket = { Name: 'first-bucket-name', BucketRegion: 'firstRegion', Arn: 'firstArn' }
-    const secondBucket: S3Bucket = { Name: 'second-bucket-name', BucketRegion: 'secondRegion', Arn: 'secondArn' }
+    const firstBucket: S3Bucket = {
+        Name: 'ai-league-agent-codebuild-sources-first',
+        BucketRegion: 'firstRegion',
+        Arn: 'firstArn',
+    }
+    const secondBucket: S3Bucket = {
+        Name: 'ai-league-agent-codebuild-sources-second',
+        BucketRegion: 'secondRegion',
+        Arn: 'secondArn',
+    }
 
     let s3: S3Client
 
