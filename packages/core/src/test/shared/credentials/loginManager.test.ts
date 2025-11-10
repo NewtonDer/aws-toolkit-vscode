@@ -204,7 +204,9 @@ describe('LoginManager', async function () {
     describe('detectExternalConnection', function () {
         let globalStateUpdateStub: sinon.SinonStub
 
-        beforeEach(function () {
+        beforeEach(async function () {
+            // Pre-populate regions to prevent RegionProvider from auto-updating global state
+            await globals.globalState.update('region', ['us-east-1', 'us-west-2'])
             globalStateUpdateStub = sandbox.stub(globals.globalState, 'update')
         })
 
