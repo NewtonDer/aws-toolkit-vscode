@@ -12,7 +12,11 @@ import { CredentialsProviderManager } from '../../../auth/providers/credentialsP
 import { AwsContext } from '../../../shared/awsContext'
 import { CredentialsStore } from '../../../auth/credentials/store'
 import { assertTelemetryCurried } from '../../testUtil'
-import { DefaultStsClient, GetCallerIdentityResponse } from '../../../shared/clients/stsClient'
+import {
+    DefaultStsClient,
+    GetCallerIdentityResponse,
+    GetCallerIdentityResponseWithHeaders,
+} from '../../../shared/clients/stsClient'
 import globals from '../../../shared/extensionGlobals'
 import { localStackConnectionHeader, localStackConnectionString } from '../../../auth/utils'
 
@@ -211,18 +215,13 @@ describe('LoginManager', async function () {
         })
 
         it('detects LocalStack connection and updates global state', async function () {
-            const mockCallerIdentityWithLocalStack: GetCallerIdentityResponse = {
+            const mockCallerIdentityWithLocalStack: GetCallerIdentityResponseWithHeaders = {
                 Account: 'AccountId1234',
                 Arn: 'arn:aws:iam::AccountId1234:user/test-user',
                 UserId: 'AIDACKCEXAMPLEEXAMPLE',
-                // @ts-ignore - Adding the $response property for testing
-                $response: {
-                    httpResponse: {
-                        headers: {
-                            [localStackConnectionHeader]: 'true',
-                            'content-type': 'application/json',
-                        },
-                    },
+                $httpHeaders: {
+                    [localStackConnectionHeader]: 'true',
+                    'content-type': 'application/json',
                 },
             }
             getAccountIdStub.reset()
@@ -236,18 +235,13 @@ describe('LoginManager', async function () {
         })
 
         it('does not detect external connection when LocalStack header is missing', async function () {
-            const mockCallerIdentityWithoutLocalStack: GetCallerIdentityResponse = {
+            const mockCallerIdentityWithoutLocalStack: GetCallerIdentityResponseWithHeaders = {
                 Account: 'AccountId1234',
                 Arn: 'arn:aws:iam::AccountId1234:user/test-user',
                 UserId: 'AIDACKCEXAMPLEEXAMPLE',
-                // @ts-ignore - Adding the $response property for testing
-                $response: {
-                    httpResponse: {
-                        headers: {
-                            'content-type': 'application/json',
-                            'x-amzn-requestid': 'test-request-id',
-                        },
-                    },
+                $httpHeaders: {
+                    'content-type': 'application/json',
+                    'x-amzn-requestid': 'test-request-id',
                 },
             }
             getAccountIdStub.reset()
@@ -260,14 +254,14 @@ describe('LoginManager', async function () {
             assert.strictEqual(globalStateUpdateStub.firstCall.args[1], undefined)
         })
 
-        it('handles response with no $response property', async function () {
-            const mockCallerIdentityWithoutResponse: GetCallerIdentityResponse = {
+        it('handles response with no $httpHeaders property', async function () {
+            const mockCallerIdentityWithoutHeaders: GetCallerIdentityResponse = {
                 Account: 'AccountId1234',
                 Arn: 'arn:aws:iam::AccountId1234:user/test-user',
                 UserId: 'AIDACKCEXAMPLEEXAMPLE',
             }
             getAccountIdStub.reset()
-            getAccountIdStub.resolves(mockCallerIdentityWithoutResponse)
+            getAccountIdStub.resolves(mockCallerIdentityWithoutHeaders)
 
             await loginManager.validateCredentials(sampleCredentials)
 

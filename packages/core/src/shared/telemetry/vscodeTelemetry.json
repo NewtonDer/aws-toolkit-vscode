@@ -174,6 +174,11 @@
             "description": "Comma-delimited list of scopes that user has."
         },
         {
+            "name": "authConsoleLoginStarted",
+            "type": "boolean",
+            "description": "Indicates the console login flow was initiated"
+        },
+        {
             "name": "awsRegion",
             "type": "string",
             "description": "An AWS region."
@@ -319,6 +324,12 @@
             "name": "smusProjectAccountId",
             "type": "string",
             "description": "SMUS project account id"
+        },
+        {
+            "name": "smusAuthMode",
+            "type": "string",
+            "allowedValues": ["sso", "iam"],
+            "description": "SMUS authentication mode (SSO or IAM)"
         }
     ],
     "metrics": [
@@ -352,6 +363,33 @@
         {
             "name": "sagemaker_deeplinkConnect",
             "description": "Connect to SageMake Space via a deeplink",
+            "metadata": [
+                {
+                    "type": "result"
+                }
+            ]
+        },
+        {
+            "name": "hyperpod_openRemoteConnection",
+            "description": "Perform a connection to a Hyperpod Space",
+            "metadata": [
+                {
+                    "type": "result"
+                }
+            ]
+        },
+        {
+            "name": "hyperpod_stopSpace",
+            "description": "Stop a HyperPod Space",
+            "metadata": [
+                {
+                    "type": "result"
+                }
+            ]
+        },
+        {
+            "name": "hyperpod_filterSpaces",
+            "description": "Filter HyperPod Spaces",
             "metadata": [
                 {
                     "type": "result"
@@ -1241,6 +1279,20 @@
             "description": "User used a LocalStack connection"
         },
         {
+            "name": "aws_consoleLoginCLISuccess",
+            "description": "Emitted when AWS CLI 'aws login' command completes successfully with exit code 0"
+        },
+        {
+            "name": "auth_consoleLoginCommand",
+            "description": "Tracks the complete console login flow, including profile creation and activation",
+            "metadata": [
+                {
+                    "type": "authConsoleLoginStarted",
+                    "required": false
+                }
+            ]
+        },
+        {
             "name": "lambda_remoteDebugStop",
             "description": "user stop remote debugging",
             "metadata": [
@@ -1387,6 +1439,10 @@
                 {
                     "type": "smusDomainAccountId",
                     "required": false
+                },
+                {
+                    "type": "smusAuthMode",
+                    "required": false
                 }
             ]
         },
@@ -1400,6 +1456,10 @@
                 },
                 {
                     "type": "smusDomainAccountId",
+                    "required": false
+                },
+                {
+                    "type": "smusAuthMode",
                     "required": false
                 }
             ]
@@ -1422,6 +1482,10 @@
                 },
                 {
                     "type": "smusDomainRegion",
+                    "required": false
+                },
+                {
+                    "type": "smusAuthMode",
                     "required": false
                 }
             ]
@@ -1448,6 +1512,10 @@
                 },
                 {
                     "type": "smusDomainRegion",
+                    "required": false
+                },
+                {
+                    "type": "smusAuthMode",
                     "required": false
                 }
             ],
@@ -1484,6 +1552,10 @@
                 {
                     "type": "smusProjectAccountId",
                     "required": false
+                },
+                {
+                    "type": "smusAuthMode",
+                    "required": false
                 }
             ]
         },
@@ -1517,6 +1589,10 @@
                 },
                 {
                     "type": "smusProjectAccountId",
+                    "required": false
+                },
+                {
+                    "type": "smusAuthMode",
                     "required": false
                 }
             ]
@@ -1556,6 +1632,10 @@
                 {
                     "type": "smusConnectionType",
                     "required": false
+                },
+                {
+                    "type": "smusAuthMode",
+                    "required": false
                 }
             ]
         },
@@ -1594,6 +1674,10 @@
                 {
                     "type": "smusConnectionType",
                     "required": false
+                },
+                {
+                    "type": "smusAuthMode",
+                    "required": false
                 }
             ]
         },
@@ -1631,6 +1715,55 @@
                 },
                 {
                     "type": "smusConnectionType",
+                    "required": false
+                },
+                {
+                    "type": "smusAuthMode",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "name": "smus_deeplinkConnect",
+            "description": "Emitted when a user connects to a SMUS space via deeplink",
+            "metadata": [
+                {
+                    "type": "result"
+                },
+                {
+                    "type": "reason",
+                    "required": false
+                },
+                {
+                    "type": "smusDomainId",
+                    "required": false
+                },
+                {
+                    "type": "smusDomainAccountId",
+                    "required": false
+                },
+                {
+                    "type": "smusProjectId",
+                    "required": false
+                },
+                {
+                    "type": "smusDomainRegion",
+                    "required": false
+                },
+                {
+                    "type": "smusProjectRegion",
+                    "required": false
+                },
+                {
+                    "type": "smusProjectAccountId",
+                    "required": false
+                },
+                {
+                    "type": "smusSpaceKey",
+                    "required": false
+                },
+                {
+                    "type": "smusAuthMode",
                     "required": false
                 }
             ]
